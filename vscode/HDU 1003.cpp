@@ -13,7 +13,7 @@
 #include <stack>
 #define LL long long
 using namespace std;
-const int MAX = 30010;
+const int MAX = 100010;
 const int INF = -0xfffffff;//268435455,2e8;
 const double EPS = 0.0000001;
 const int MOD = 1000000007;
@@ -21,37 +21,51 @@ int T,N,M;
 
 
 /*-------------------------------------------------------------------------------------------*/
-struct BAG
-{
-    int m;
-    int v;
-}th[25];
-int dp[25][MAX];
+
+int a[MAX];
+int dp[MAX];
 /* ------------------------------------------------------------------------------------------*/
 
 int main()
 {
     //std::ios::sync_with_stdio(false);
-    cin >> M >> N;
-    for(int i =1;i <= N;i++)
+    cin >> T;
+    for(int j = 1;j <= T;j++)
     {
-        cin >> th[i].m >> th[i].v;
-    }
-    for(int j = 1;j <= N;j++)
-    {
-        for(int i = 1;i <= M;i++)
+        cin >> N;
+        for(int i =1;i <= N;i++)
         {
-            if(th[j].m <= i)
+            cin >> a[i];
+        }
+        int l,r,ans;
+        int nl;
+        dp[1] = a[1];
+        nl = 1;
+        ans = a[1];
+        l = 1;
+        r = 1;
+        for(int i = 2;i <=N;i++)
+        {
+            if(dp[i-1] >= 0)
             {
-                dp[j][i] = max(dp[j-1][i],dp[j-1][i - th[j].m]+th[j].m*th[j].v);
+                dp[i] = dp[i-1]+a[i];
             }
             else
             {
-                dp[j][i] = dp[j-1][i];
+                dp[i] = a[i];
+                nl = i;
+            }
+            if(dp[i] > ans)
+            {
+                ans = dp[i];
+                l = nl;
+                r = i;
             }
         }
+        cout << "Case " << j << ":\n";
+        cout << ans << " " << l << " " << r << "\n";
+        if(j != T) cout << "\n";
     }
-    cout << dp[N][M] << "\n";
     return 0;
 }
 
