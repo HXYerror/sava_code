@@ -13,71 +13,44 @@
 #include <stack>
 #define LL long long
 using namespace std;
-const int MAX = 300010;
-const int MAX_1 = 100;
+const int MAX = 501000;
+const int MAX_1 = 500000;
 const int INF = 0xfffffff;//268435455,2e8;
 const double EPS = 0.0000001;
-const int MOD = 1000000007;
+const int MOD = 10000007;
 int T,N,M;
 
 /*-------------------------------------------------------------------------------------------*/
-LL x[MAX];
-LL k[MAX];
-LL p[MAX];
+
+set<int> a;
 /* ------------------------------------------------------------------------------------------*/
 
-LL gcd(LL a,LL b)
-{
-    return a % b == 0? b : gcd(b,a%b);
-}
 
 int main()
 {
     std::ios::sync_with_stdio(false);
-    cin.tie(0);
-    cout.tie(0);
+    //cin.tie(0);
+    //cout.tie(0);
 /* --------------------------------------------------------------------------------------*/
-    cin >> N >>M;
-    int f = 0;
-    for(int i = 1;i <= N;i++)
+    cin >> N;
+    a.insert(N);
+    int flag = 0;
+    while(1)
     {
-        cin >> x[i];
-        k[i] = x[i]-x[i-1];
-    }
-    LL m;
-    if(N > 2)
-    {
-        m = gcd(k[2],k[3]);
-    }
-    else m = k[2];
-    for(int i= 4;i <= N;i++)
-    {
-       m = gcd(k[i],m);
-    }
+        N++;
 
-    LL ans = 0;
-    for(int i = 1;i <= M;i++)
-    {
-        cin >> p[i];
-    }
-    int j;
-    for(j = 1;j <= M;j++)
-    {
-        if(m % p[j]  == 0)
+        while(N % 10 == 0)
         {
-            ans = j;
-            f = 1;
+            N /= 10;
+        }
+        a.insert(N);
+        //1cout << N <<endl;
+        if(flag && N == 1)
+        {
             break;
         }
+        if(N == 1) flag = 1;
     }
-    if(j == M+1) f= 0;
-
-    if(f)
-    {
-        cout <<"YES" <<"\n" ;
-        cout << x[1] <<" " << ans;
-    }
-    else cout << "NO";
+    cout << a.size() << "\n";
     return 0;
 }
-
