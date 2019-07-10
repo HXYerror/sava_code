@@ -13,15 +13,15 @@
 #include <stack>
 #define LL long long
 using namespace std;
-const int MAX = 505;//100000
+const int MAX = 200010;//100000
 const int MAX_1 = 2010;
 const int INF = 0x3f3f3f3f;//1061109567,1e9,int-MAX2147483647;
 const double EPS = 0.0000001;
 const int MOD = 998244353;
 int T,N,M;
 /*-------------------------------------------------------------------------------------------*/
-int cnt[MAX];
-char str[MAX];
+vector<int> a;
+int b[MAX];
 /* ------------------------------------------------------------------------------------------*/
  
 int main()
@@ -33,42 +33,33 @@ int main()
     //freopen("output.out","w",stdout);
 /* --------------------------------------------------------------------------------------*/
     cin >> N;
-    cnt[0] = 0;
-    for(int i = 1;i <= N;i++)
+    int x;
+    for(int i = 0;i < N;i++)
     {
-        cin >> str[i];
-        if(str[i] == '0') cnt[i] = cnt[i-1]+1;
-        else cnt[i] = cnt[i-1];
+        cin >> x;
+        a.push_back(x);
     }
-    str[N+1] = '\0';
-    if(N % 2 == 1 || N - cnt[N] != cnt[N])
+    sort(a.begin(),a.end(),greater<int>());
+    if(a[0] >= a[1]+a[2])
     {
-        cout << 1 << endl;
-        for(int i = 1;i <= N;i++)
-        {
-            cout << str[i];
-        }
+        cout << "NO";
+        return 0;
     }
-    else
+    cout << "YES" <<endl;
+    int i,j;
+    i = j = 100000;
+    b[i--] = a[0];
+    int k = 1;
+    while(k < N)
     {
-        cout << 2 <<endl;
-        for(int i = 1;i <= N;i++)
-        {
-            if(i - cnt[i] != cnt[i])
-            {
-                for(int j = 1;j <= i ; j++)
-                {
-                    cout << str[j];
-                }
-                cout << " ";
-                for(int j = i+1;j <= N;j++)
-                {
-                    cout << str[j];
-                }
-                cout <<endl;
-                break;
-            }
-        }
+        b[i--] = a[k++];
+        if(k >= N) break;
+        b[++j] = a[k++];
+    }
+    for(i = i+1;i <= j;i++)
+    {
+        cout << b[i];
+        if(i != j) cout << " ";
     }
     return 0;
 }
