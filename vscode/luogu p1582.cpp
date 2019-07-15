@@ -21,15 +21,9 @@ const int MOD = 998244353;
 const double PI = acos(-1);
 LL T,N,M;
 /*-------------------------------------------------------------------------------------------*/
-map<int,int> a;
-vector<int> b;
+LL sq2[35];
 /* ------------------------------------------------------------------------------------------*/
 
-int mycoutans(bool flag)
-{
-    if(flag) cout << "cslnb" <<endl;
-    else cout << "sjfnb" << endl;
-}
 
 int main()
 {
@@ -39,54 +33,32 @@ int main()
     //freopen("input.in","r",stdin);
     //freopen("output.out","w",stdout);
 /* --------------------------------------------------------------------------------------*/
-    cin >> N;
-    int x;
-    for(int i = 0;i < N;i++)
+    LL n = 1;
+    for(int i = 0;i < 35;i++)
     {
-        cin >>x;
-        a[x]++;
-        b.push_back(x);
+        sq2[i] = n << i;
     }
-    if(a.find(0) != a.end())
+    cin >> N >> M;
+    int ans = 0;
+    int mi = INF;
+    while(M && N)
     {
-        if(a[0] > 1)
+        for(int i = 0;i < 35;i++)
         {
-            mycoutans(1);
-            return 0;
-        }
-    }
-    int cnt = 0;
-    for(auto it = a.begin();it != a.end();it++)
-    {
-        if(it->second > 2)
-        {
-            mycoutans(1);
-            return 0;
-        }
-        if(it -> second > 1)
-        {
-            cnt++;
-            if(cnt == 2)
+            if(N < sq2[i])
             {
-                mycoutans(1);
-                return 0;
-            }
-            if(a.find(it->first - 1) != a.end())
-            {
-                mycoutans(1);
-                return 0;
+                N -= sq2[i-1];
+                M--;
+                mi = min(mi,i-1);
+                //cout << i-1 <<endl;
+                break;
             }
         }
     }
-    LL sum = 0;
-    LL cmt = 0;
-    sort(b.begin(),b.end());
-    for(int i = 0;i < N;i++)
+    if(N)
     {
-        sum += b[i] + cmt;
-        cmt++;
+        ans += sq2[mi] - N;
     }
-    if(sum % 2 == 0) mycoutans(1);
-    else mycoutans(0);
+    cout << ans <<endl;
     return 0;
 }
